@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Filter from './Filter';
+import Filter from '../components/Filter';
 
 const CharacterTable = () => {
   const [characters, setCharacters] = useState([]);
@@ -10,7 +10,6 @@ const CharacterTable = () => {
   const [filters, setFilters] = useState({});
   const [showNoResults, setShowNoResults] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [expandedCharacterId, setExpandedCharacterId] = useState(null); 
   const maxRowsPerPage = 250;
 
   useEffect(() => {
@@ -72,14 +71,6 @@ const CharacterTable = () => {
     }
   };
 
-  const toggleDetails = (characterId) => {
-    if (expandedCharacterId === characterId) {
-      setExpandedCharacterId(null);
-    } else {
-      setExpandedCharacterId(characterId); 
-    }
-  };
-
   const currentCharacters = characters.slice(
     (currentPage - 1) * maxRowsPerPage,
     currentPage * maxRowsPerPage
@@ -89,7 +80,7 @@ const CharacterTable = () => {
     <div className="container mt-3 pb-5">
       <Filter onFilterChange={setFilters} />
       {loading ? (
-        <div className="alert alert-warning d-flex justify-content-center">
+        <div className="alertPersonal warning d-flex justify-content-center">
           <div className="spinner-border text-warning" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -116,40 +107,17 @@ const CharacterTable = () => {
                 </thead>
                 <tbody>
                   {currentCharacters.map((character) => (
-                    <React.Fragment key={character.id}>
-                      <tr onClick={() => toggleDetails(character.id)} style={{ cursor: 'pointer' }}>
-                        <td>{character.id}</td>
-                        <td><img src={character.image} alt={character.name} style={{ width: '60px', height: '60px'}} /></td>
-                        <td>{character.name}</td>
-                        <td>{character.status}</td>
-                        <td>{character.species}</td>
-                        <td>{character.gender}</td>
-                        <td>
-                          <Link to={`/characters/${character.id}`} className="btn btn-primary btn-sm">Details</Link>
-                        </td>
-                      </tr>
-                      {expandedCharacterId === character.id && (
-                        <tr>
-                          <td colSpan="7">
-                            <div className="row text-center text-md-start">
-                              <div className="col-12 col-md-3 text-center">
-                                <img src={character.image} alt={character.name} style={{ width: '120px', height: '120px'}} />
-                              </div>
-                              <div className="col-12 col-md-9 row gap-1 justify-content-center">
-                                <div className="row row-gap-1 row-gap-md-0 mt-1 mt-md-0 ">
-                                  <div className="col-md-6"><strong>Name:</strong> {character.name}</div>
-                                  <div className="col-md-6"><strong>Status:</strong> {character.status}</div>
-                                  <div className="col-md-6"><strong>Species:</strong> {character.species}</div>
-                                  <div className="col-md-6"><strong>Gender:</strong> {character.gender}</div>
-                                  <div className="col-md-6"><strong>Origin:</strong> {character.origin.name}</div>
-                                  <div className="col-md-6"><strong>Location:</strong> {character.location.name}</div>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
+                    <tr key={character.id} onClick={() => { window.location.href = `/characters/${character.id}`; }} style={{ cursor: 'pointer' }}>
+                      <td>{character.id}</td>
+                      <td><img src={character.image} alt={character.name} style={{ width: '60px', height: '60px'}} /></td>
+                      <td>{character.name}</td>
+                      <td>{character.status}</td>
+                      <td>{character.species}</td>
+                      <td>{character.gender}</td>
+                      {/* <td>
+                        <Link to={`/characters/${character.id}`} className="btn btn-primary btn-sm">Details</Link>
+                      </td> */}
+                    </tr>
                   ))}
                 </tbody>
               </table>

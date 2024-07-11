@@ -24,7 +24,7 @@ function Filter({ onFilterChange }) {
   return (
     <div className="container-fluid my-3">
       <form onSubmit={handleSubmit}>
-        <div className="row custom-row align-items-center">
+        <div className="row align-items-center row-gap-2 row-gap-lg-0 ">
           <div className="col-lg-3 col-md-6">
             <input
               type="text"
