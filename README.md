@@ -10,3 +10,5 @@ Currently, two official plugins are available:
 # Personal example
 Rick and Morty Wiki - Using rick and morty API 
 [Rick and Morty API](https://rickandmortyapi.com/)
+
+Website Link : [rickandmortyseries.vercel.app](https://rickandmortyseries.vercel.app/)
