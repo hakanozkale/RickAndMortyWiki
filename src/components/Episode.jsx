@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
+
 
 const EpisodeTable = () => {
   const [episodes, setEpisodes] = useState([]);
@@ -12,7 +14,7 @@ const EpisodeTable = () => {
   useEffect(() => {
     const fetchEpisodes = async () => {
       try {
-        const response = await axios.get('https://rickandmortyapi.com/api/episode');
+        const response = await axios.get(`${config.BASE_URL}/episode`);
         setEpisodes(response.data.results);
       } catch (error) {
         console.error('Error fetching episodes:', error);

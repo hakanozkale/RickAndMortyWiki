@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
 import Filter from './Filter';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
@@ -36,7 +37,7 @@ const CharacterTable = () => {
 
         do {
           try {
-            response = await axios.get(`https://rickandmortyapi.com/api/character?page=${page}${query}`);
+            response = await axios.get(`${config.BASE_URL}/character?page=${page}${query}`);
 
             allCharacters = [...allCharacters, ...response.data.results];
             page++;              
@@ -47,6 +48,13 @@ const CharacterTable = () => {
               setShowNoResults(true);
           }
         } while (response.data.info.next !== null);
+
+        // Apply sorting based on the selected filter
+        if (filters.sort === 'az') {
+          allCharacters.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (filters.sort === 'za') {
+          allCharacters.sort((a, b) => b.name.localeCompare(a.name));
+        }
 
         setCharacters(allCharacters);
 

@@ -6,6 +6,7 @@ function Filter({ onFilterChange }) {
     status: '',
     species: '',
     gender: '',
+    sort: '',
   });
 
   const handleSubmit = (e) => {
@@ -90,10 +91,26 @@ function Filter({ onFilterChange }) {
           </div>
         </div>
 
-        <div className="row custom-row align-items-center mt-3">
-          <button type="submit" className="btn btn-primary btn-lg d-block w-100">
-            Search
-          </button>
+        <div className="row align-items-center row-gap-2 row-gap-lg-0 mt-3">
+          <div className="col-md-8 col-12">
+            <button type="submit" className="btn btn-primary btn-lg d-block w-100">
+              Search
+            </button>
+          </div>
+          <div className="col-md-4 col-12">
+            <label htmlFor="sort" className="visually-hidden">Sort</label>
+            <select
+              className="form-select"
+              id="sort"
+              name="sort"
+              value={filters.sort}
+              onChange={handleInputChange}
+            >
+              <option value="">Sort</option>
+              <option value="az">A-Z</option>
+              <option value="za">Z-A</option>
+            </select>
+          </div>
         </div>
       </form>
     </div>

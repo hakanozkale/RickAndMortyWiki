@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams , Link} from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
 const CharacterDetails = () => {
@@ -14,7 +15,7 @@ const CharacterDetails = () => {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await axios.get(`https://rickandmortyapi.com/api/character/${id}`);
+        const response = await axios.get(`${config.BASE_URL}/character/${id}`);
         setCharacter(response.data);
       } catch (error) {
         console.error('Error fetching character details:', error);

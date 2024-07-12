@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
 const LocationDetails = () => {
@@ -13,7 +14,7 @@ const LocationDetails = () => {
   useEffect(() => {
     const fetchLocationDetails = async () => {
       try {
-        const response = await axios.get(`https://rickandmortyapi.com/api/location/${id}`);
+        const response = await axios.get(`${config.BASE_URL}/location/${id}`);
         setLocationDetails(response.data);
 
         // Lokasyonda ki karakterlerin bilgileride alıyoruz

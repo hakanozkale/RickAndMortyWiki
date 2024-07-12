@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
 const Location = () => {
@@ -14,7 +15,7 @@ const Location = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await axios.get('https://rickandmortyapi.com/api/location');
+        const response = await axios.get(`${config.BASE_URL}/location`);
         setLocations(response.data.results);
       } catch (error) {
         console.error('Error fetching locations:', error);

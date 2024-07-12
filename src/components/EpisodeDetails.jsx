@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../api/config';
 import LoadingSpinner from '../utils/LoadingSpinner';
+
 
 const EpisodeDetails = () => {
   const { id } = useParams(); // URL parametresinden ID'yi alıyoruz
@@ -11,7 +13,7 @@ const EpisodeDetails = () => {
   useEffect(() => {
     const fetchEpisode = async () => {
       try {
-        const response = await axios.get(`https://rickandmortyapi.com/api/episode/${id}`);
+        const response = await axios.get(`${config.BASE_URL}/episode/${id}`);
         setEpisode(response.data);
         
         // Bölümdeki karakterlerin bilgileride alıyoruz
