@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import svg from '../assets/svg/ram.svg';
 
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <nav className="navbar navbar-expand-md bg-body-tertiary" aria-label="Thirteenth navbar example">
       <div className="container-fluid mx-5">
         <NavLink className="navbar-brand d-lg-none" to="/">
           <img src={svg} alt="logo" width={96} style={{height:"auto"}} />
         </NavLink>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample1" aria-controls="navbarsExample1" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={toggleNavbar}
+          aria-controls="navbarsExample1"
+          aria-expanded={isOpen ? "true" : "false"}
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarsExample1">
+        <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarsExample1">
           <NavLink className="navbar-brand d-none d-lg-block me-0" to="/">
             <img src={svg} alt="logo" width={144} style={{height:"auto"}} />
           </NavLink>
