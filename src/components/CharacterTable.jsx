@@ -4,8 +4,6 @@ import axios from 'axios';
 import Filter from './Filter';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
-// TODO : td içinde style={{ minWidth: '160px' }} denedik : LCP düşürüyor mu kontrol et --
- 
 const CharacterTable = () => {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +104,7 @@ const CharacterTable = () => {
                   <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Photo</th>
-                    <th scope="col" style={{ minWidth: '160px' }}>Character</th>
+                    <th scope="col">Character</th>
                     <th scope="col">Status</th>
                     <th scope="col">Species</th>
                     <th scope="col">Gender</th>
