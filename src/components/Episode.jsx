@@ -26,7 +26,7 @@ const EpisodeTable = () => {
     <div>
       <h2>Episode List</h2>
       <div className="table-responsive-sm">
-        <table className="table table-bordered table-hover">
+        <table className="table table-bordered table-hover align-middle text-center">
           <thead className="thead-dark">
             <tr>
               <th scope="col">ID</th>

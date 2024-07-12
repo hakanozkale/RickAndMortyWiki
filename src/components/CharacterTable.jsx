@@ -102,7 +102,7 @@ const CharacterTable = () => {
             </div>
           ) : (
             <div className="table-responsive">
-              <table className="table table-bordered table-hover">
+              <table className="table table-bordered table-hover align-middle text-center">
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">ID</th>
