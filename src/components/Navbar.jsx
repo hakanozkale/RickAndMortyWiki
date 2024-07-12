@@ -13,7 +13,7 @@ function Navbar() {
     <nav className="navbar navbar-expand-md bg-body-tertiary" aria-label="Thirteenth navbar example">
       <div className="container-fluid mx-5">
         <NavLink className="navbar-brand d-lg-none" to="/">
-          <img src={svg} alt="logo" width={96} style={{height:"auto"}} />
+          <img src={svg} alt="logo" width={96} height={30} />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -28,7 +28,7 @@ function Navbar() {
 
         <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarsExample1">
           <NavLink className="navbar-brand d-none d-lg-block me-0" to="/">
-            <img src={svg} alt="logo" width={144} style={{height:"auto"}} />
+            <img src={svg} alt="logo" width={144} height={44} />
           </NavLink>
           <ul className="navbar-nav mx-auto text-center">
             <li className="nav-item">
