@@ -25,32 +25,34 @@ const EpisodeTable = () => {
   return (
     <div>
       <h2>Episode List</h2>
-      <table className="table table-bordered table-hover">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Air Date</th>
-            <th scope="col">Episode</th>
-            <th scope="col">Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {episodes.map((episode) => (
-            <tr key={episode.id}>
-              <td>{episode.id}</td>
-              <td>{episode.name}</td>
-              <td>{episode.air_date}</td>
-              <td>{episode.episode}</td>
-              <td>
-                <Link to={`/episodes/${episode.id}`} className="btn btn-primary">
-                  Details
-                </Link>
-              </td>
+      <div className="table-responsive-sm">
+        <table className="table table-bordered table-hover">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Air Date</th>
+              <th scope="col">Episode</th>
+              <th scope="col">Details</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {episodes.map((episode) => (
+              <tr key={episode.id}>
+                <td>{episode.id}</td>
+                <td>{episode.name}</td>
+                <td>{episode.air_date}</td>
+                <td>{episode.episode}</td>
+                <td>
+                  <Link to={`/episodes/${episode.id}`} className="btn btn-primary">
+                    Details
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

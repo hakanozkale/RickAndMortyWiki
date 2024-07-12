@@ -36,8 +36,10 @@ function Filter({ onFilterChange }) {
             />
           </div>
           <div className="col-lg-3 col-md-6">
+            <label htmlFor="status" className="visually-hidden">Status</label>
             <select
               className="form-select"
+              id="status"
               name="status"
               value={filters.status}
               onChange={handleInputChange}
@@ -49,8 +51,10 @@ function Filter({ onFilterChange }) {
             </select>
           </div>
           <div className="col-lg-3 col-md-6">
+            <label htmlFor="species" className="visually-hidden">Species</label>
             <select
               className="form-select"
+              id="species"
               name="species"
               value={filters.species}
               onChange={handleInputChange}
@@ -69,8 +73,10 @@ function Filter({ onFilterChange }) {
             </select>
           </div>
           <div className="col-lg-3 col-md-6">
+            <label htmlFor="gender" className="visually-hidden">Gender</label>
             <select
               className="form-select"
+              id="gender"
               name="gender"
               value={filters.gender}
               onChange={handleInputChange}
