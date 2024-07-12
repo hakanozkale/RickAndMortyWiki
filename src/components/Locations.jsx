@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 const Location = () => {
   const [locations, setLocations] = useState([]);
@@ -29,10 +30,7 @@ const Location = () => {
     <div className="container mt-3">
       <h2>Locations</h2>
       {loading ? (
-        <div className="alertPersonal warning d-flex justify-content-center">
-            <div className="spinner-border text-warning" role="status">
-            </div>
-        </div>
+        <LoadingSpinner/>
       ) : (
         <div className="row">
           {locations.map((location) => (

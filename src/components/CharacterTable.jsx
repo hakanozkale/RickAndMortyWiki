@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Filter from './Filter';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 const CharacterTable = () => {
   const [characters, setCharacters] = useState([]);
@@ -86,18 +87,14 @@ const CharacterTable = () => {
   );
 
   return (
-    <div className="container mt-3 pb-5">
+    <div className="container mt-3 pb-3">
       <Filter onFilterChange={setFilters} />
       {loading ? (
-        <div className="alert alert-warning d-flex justify-content-center">
-          <div className="spinner-border text-warning" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <LoadingSpinner/>
       ) : (
         <>
           {showNoResults ? (
-            <div className="alert alert-danger d-flex justify-content-center">
+            <div className="alertPersonal error d-flex justify-content-center">
                 <span>{errorMessage}</span>
             </div>
           ) : (

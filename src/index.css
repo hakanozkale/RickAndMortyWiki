@@ -41,12 +41,6 @@ body{
   font-weight: bold;
 }
 
-.success {
-  color: #155724;
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-}
-
 .warning {
   color: #856404;
   background-color: #fff3cd;
@@ -57,6 +51,12 @@ body{
   color: #721c24;
   background-color: #f8d7da;
   border: 1px solid #f5c6cb;
+}
+
+/* .success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
 }
 
 .info {
@@ -81,4 +81,4 @@ body{
   color: #fff;
   background-color: #343a40;
   border: 1px solid #6c757d;
-}
+} */

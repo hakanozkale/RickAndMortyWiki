@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 const LocationDetails = () => {
   const { id } = useParams();
@@ -33,10 +34,7 @@ const LocationDetails = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <div className="alertPersonal warning d-flex justify-content-center">
-          <div className="spinner-border text-warning" role="status">
-          </div>
-        </div>
+        <LoadingSpinner/>
       ) : (
         <div className="card">
           <div className="card-body">

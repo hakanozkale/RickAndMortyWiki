@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 const EpisodeDetails = () => {
   const { id } = useParams(); // URL parametresinden ID'yi alıyoruz
@@ -28,11 +29,7 @@ const EpisodeDetails = () => {
 
   if (!episode) {
     return (
-        <div className="alertPersonal warning d-flex justify-content-center">
-            <div className="spinner-border text-warning" role="status">
-            <span className="visually-hidden">Loading...</span>
-            </div>
-        </div>
+        <LoadingSpinner/>
     );
   }
 
