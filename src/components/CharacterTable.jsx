@@ -14,6 +14,7 @@ const CharacterTable = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [expandedCharacterId, setExpandedCharacterId] = useState(null); 
   const maxRowsPerPage = 250;
+  const placeholderImage = 'https://rickandmortyapi.com/api/character/avatar/66.jpeg';
 
   useEffect(() => {
     document.title = 'Characters | Rick and Morty Wiki';
@@ -49,11 +50,13 @@ const CharacterTable = () => {
           }
         } while (response.data.info.next !== null);
 
-        // Apply sorting based on the selected filter
-        if (filters.sort === 'az') {
-          allCharacters.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (filters.sort === 'za') {
-          allCharacters.sort((a, b) => b.name.localeCompare(a.name));
+        if (filters.sort) {
+          if (filters.sort === 'az') {
+            allCharacters.sort((a, b) => a.name.localeCompare(b.name));
+          } 
+          else {
+            allCharacters.sort((a, b) => b.name.localeCompare(a.name));
+          }
         }
 
         setCharacters(allCharacters);
@@ -94,6 +97,10 @@ const CharacterTable = () => {
     currentPage * maxRowsPerPage
   );
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="container mt-3 pb-3">
       <Filter onFilterChange={setFilters} />
@@ -124,7 +131,9 @@ const CharacterTable = () => {
                     <React.Fragment key={character.id}>
                       <tr onClick={() => toggleDetails(character.id)} style={{ cursor: 'pointer' }}>
                         <td>{character.id}</td>
-                        <td><img src={character.image} alt={character.name} style={{ width: '60px', height: '60px'}} /></td>
+                        <td>
+                          <img src={character.image} alt={character.name} style={{ width: '60px', height: '60px'}} onError={(e) => { e.target.onerror = null; e.target.src = placeholderImage; }} loading="lazy"/>
+                        </td>
                         <td>{character.name}</td>
                         <td>{character.status}</td>
                         <td>{character.species}</td>
@@ -138,7 +147,8 @@ const CharacterTable = () => {
                           <td colSpan="7">
                             <div className="row text-center text-md-start">
                               <div className="col-12 col-md-3 text-center">
-                                <img src={character.image} alt={character.name} style={{ width: '120px', height: '120px'}} />
+                                <img src={character.image} alt={character.name} style={{ width: '120px', height: '120px'}} onError={(e) => { e.target.onerror = null; e.target.src = placeholderImage; }}
+                                loading="lazy"/>
                               </div>
                               <div className="col-12 col-md-9 row gap-1 justify-content-center">
                                 <div className="row row-gap-1 row-gap-md-0 mt-1 mt-md-0 ">
@@ -161,7 +171,7 @@ const CharacterTable = () => {
             </div>
           )}
 
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between align-items-center">
             <button
               className="btn btn-primary"
               onClick={handlePreviousPage}
@@ -169,6 +179,15 @@ const CharacterTable = () => {
             >
               Previous page
             </button>
+
+            <button
+              className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+              onClick={scrollToTop}
+              style={{ width: '40px', height: '40px'}}
+            >
+              ↑
+            </button>
+
             <button
               className="btn btn-primary"
               onClick={handleNextPage}
