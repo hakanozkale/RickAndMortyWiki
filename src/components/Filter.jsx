@@ -16,12 +16,14 @@ function Filter({ onFilterChange }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
   };
 
+  
   return (
     <div className="container-fluid my-3">
       <form onSubmit={handleSubmit}>

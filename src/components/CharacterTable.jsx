@@ -31,7 +31,7 @@ const CharacterTable = () => {
         let response;
         let query = '';
 
-        if (filters.name) query += `&name=${filters.name}`;
+        if (filters.name) query += `&name=${filters.name.toLocaleLowerCase('tr')}`;
         if (filters.status) query += `&status=${filters.status}`;
         if (filters.species) query += `&species=${filters.species}`;
         if (filters.gender) query += `&gender=${filters.gender}`;
