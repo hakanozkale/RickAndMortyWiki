@@ -2,14 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This is a sample description for the Rick and Morty Wiki.">
-    <meta name="keywords" content="Rick and Morty, Wiki, Characters, Episodes, Locations">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="Hakan Ozkale - GitHub: @hakanozkale">
-    <link rel="icon" type="image/svg+xml" href="./src/assets/svg/rick.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home | Rick and Morty Wiki</title>
+    <meta name="description" content="Explore the Rick and Morty universe — characters, episodes, and locations. A comprehensive wiki built with React." />
+    <meta name="keywords" content="Rick and Morty, Wiki, Characters, Episodes, Locations" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Hakan Ozkale - GitHub: @hakanozkale" />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="canonical" href="https://rickandmortywiki.vercel.app/" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rickandmortywiki.vercel.app/" />
+    <meta property="og:title" content="Rick and Morty Wiki — Characters, Episodes & Locations" />
+    <meta property="og:description" content="Explore the Rick and Morty universe — characters, episodes, and locations. A comprehensive Wiki built with React and TanStack Query." />
+    <meta property="og:image" content="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://rickandmortywiki.vercel.app/" />
+    <meta property="twitter:title" content="Rick and Morty Wiki — Characters, Episodes & Locations" />
+    <meta property="twitter:description" content="Explore the Rick and Morty universe — characters, episodes, and locations. A comprehensive Wiki built with React and TanStack Query." />
+    <meta property="twitter:image" content="https://rickandmortyapi.com/api/character/avatar/1.jpeg" />
+
+    <!-- Favicon and Apple Touch -->
+    <link rel="icon" type="image/svg+xml" href="./src/assets/svg/rick.svg" />
+    <link rel="apple-touch-icon" href="./src/assets/svg/rick.svg" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Rick and Morty Wiki — Explore the Multiverse</title>
+    
+    <!-- Theme Switcher Initialization -->
+    <script>
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const activeTheme = storedTheme || systemTheme;
+        document.documentElement.setAttribute('data-theme', activeTheme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

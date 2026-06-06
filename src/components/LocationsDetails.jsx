@@ -1,84 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
-import config from '../api/config';
+import { useEffect } from 'react';
+import { useParams, Link } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '../api/apiClient';
+import LazyImage from './LazyImage';
 import LoadingSpinner from '../utils/LoadingSpinner';
 
 const LocationDetails = () => {
   const { id } = useParams();
-  const [locationDetails, setLocationDetails] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [residents, setResidents] = useState([]);
-  const [residentsLoading, setResidentsLoading] = useState(true);
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['locationDetails', id],
+    queryFn: async () => {
+      // 1. Fetch location details
+      const locResponse = await apiClient.get(`/location/${id}`);
+      const locationData = locResponse.data;
+
+      // 2. Fetch residents in batch
+      const residentIds = locationData.residents.map((url) => {
+        const parts = url.split('/');
+        return parts[parts.length - 1];
+      });
+
+      let residentsData = [];
+      if (residentIds.length > 0) {
+        const charResponse = await apiClient.get(`/character/${residentIds.join(',')}`);
+        residentsData = Array.isArray(charResponse.data)
+          ? charResponse.data
+          : [charResponse.data];
+      }
+
+      return {
+        location: locationData,
+        residents: residentsData,
+      };
+    },
+  });
 
   useEffect(() => {
-    const fetchLocationDetails = async () => {
-      try {
-        const response = await axios.get(`${config.BASE_URL}/location/${id}`);
-        setLocationDetails(response.data);
+    if (data?.location) {
+      document.title = `${data.location.name} | Rick and Morty Wiki`;
+    } else {
+      document.title = 'Location Details | Rick and Morty Wiki';
+    }
+  }, [data]);
 
-        // Lokasyonda ki karakterlerin bilgileride alıyoruz
-        const residentRequests = response.data.residents.map(url => axios.get(url));
-        const residentResponses = await Promise.all(residentRequests);
-        setResidents(residentResponses.map(res => res.data));
-      } catch (error) {
-        console.error('Error fetching location details:', error);
-      } finally {
-        setLoading(false);
-        setResidentsLoading(false);
-      }
-    };
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
-    fetchLocationDetails();
-  }, [id]);
+  if (isError) {
+    return (
+      <div className="container mt-4">
+        <div className="alertPersonal error d-flex justify-content-center">
+          <span>Failed to load location details: {error.message}</span>
+        </div>
+        <div className="d-flex justify-content-center mt-3">
+          <Link to="/locations" className="btn-modern btn-secondary-modern">&larr; Back to Locations</Link>
+        </div>
+      </div>
+    );
+  }
+
+  const { location, residents } = data;
 
   return (
     <div className="container mt-4">
-      {loading ? (
-        <LoadingSpinner/>
-      ) : (
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h2 className="card-title">{locationDetails.name}</h2>
-              <Link to="/locations" className="btn btn-secondary">&larr; Location List</Link>
-            </div>
-            <p className="card-text"><strong>Type:</strong> {locationDetails.type}</p>
-            <p className="card-text"><strong>Dimension:</strong> {locationDetails.dimension}</p>
-            <h4 className="card-text">Residents:</h4>
-            {residentsLoading ? (
-              <div className="alertPersonal warning d-flex justify-content-center">
-                Loading residents...
-              </div>
-            ) : (
-              <ul className="list-group">
-                {residents.length > 0 ? (
-                  residents.map((resident, index) => (
-                    <li key={index} className="list-group-item">
-                      <div className="row">
-                        <div className="col-md-2">
-                          <img src={resident.image} alt={resident.name} className="img-fluid rounded" />
-                        </div>
-                        <div className="col-md-10">
-                          <p><strong>ID:</strong> {resident.id}</p>
-                          <p><strong>Name:</strong> {resident.name}</p>
-                          <p><strong>Origin:</strong> {resident.origin.name}</p>
-                          <p><strong>Location:</strong> {resident.location.name}</p>
-                        </div>
+      <div className="detail-card">
+        <div className="detail-header d-flex flex-wrap align-items-center gap-3 justify-content-start">
+          <Link to="/locations" className="btn-modern btn-secondary-modern">&larr; Location List</Link>
+          <h2 className="mb-0">{location.name}</h2>
+        </div>
+        <div className="detail-body">
+          <div className="detail-info-row">
+            <strong>Type:</strong>
+            <span>{location.type}</span>
+          </div>
+          <div className="detail-info-row">
+            <strong>Dimension:</strong>
+            <span>{location.dimension}</span>
+          </div>
+
+          <h4 className="mt-4 mb-3 text-primary">Residents ({residents.length})</h4>
+          <div className="row g-3">
+            {residents.length > 0 ? (
+              residents.map((res) => (
+                <div key={res.id} className="col-lg-6 col-12">
+                  <Link to={`/characters/${res.id}`} style={{ textDecoration: 'none' }}>
+                    <div className="resident-item">
+                      <div className="resident-image">
+                        <LazyImage src={res.image} alt={res.name} width="72px" height="72px" />
                       </div>
-                    </li>
-                  ))
-                ) : (
-                  <li className="list-group-item">No residents found.</li>
-                )}
-              </ul>
+                      <div className="resident-info">
+                        <p style={{ fontSize: '0.95rem', fontWeight: '600', marginBottom: '6px' }}>
+                          <strong>{res.name}</strong>
+                        </p>
+                        <p><strong>Status:</strong> {res.status} - {res.species}</p>
+                        <p><strong>Location:</strong> {res.location?.name}</p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <div className="col-12 text-center text-muted py-3">No residents found.</div>
             )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
 export default LocationDetails;
-

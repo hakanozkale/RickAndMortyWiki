@@ -1,41 +1,105 @@
-import './App.css'
-import Layout from './layout/Layout'
-import Home from './pages/Home'
-import CharacterTable from './components/CharacterTable'
-import CharacterDetails from './components/CharacterDetails';
-import Episode from './components/Episode';
-import EpisodeDetails from './components/EpisodeDetails';
-import Locations from './components/Locations';
-import LocationsDetails from './components/LocationsDetails';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router';
+import ErrorBoundary from './components/ErrorBoundary';
+import Layout from './layout/Layout';
+import './App.css';
 
+// Lazy loaded pages — code splitting ile her route ayrı chunk
+const Home = lazy(() => import('./pages/Home'));
+const CharacterTable = lazy(() => import('./components/CharacterTable'));
+const CharacterDetails = lazy(() => import('./components/CharacterDetails'));
+const Episode = lazy(() => import('./components/Episode'));
+const EpisodeDetails = lazy(() => import('./components/EpisodeDetails'));
+const Locations = lazy(() => import('./components/Locations'));
+const LocationsDetails = lazy(() => import('./components/LocationsDetails'));
+const NotFound = lazy(() => import('./components/NotFound'));
+
+// Suspense fallback
+const PageLoader = () => (
+  <div className="loading-container">
+    <div className="spinner" />
+  </div>
+);
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'characters',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <CharacterTable />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'characters/:id',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <CharacterDetails />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'episode',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Episode />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'episodes/:id',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <EpisodeDetails />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'locations',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Locations />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'locations/:id',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <LocationsDetails />
+          </Suspense>
+        ),
+      },
+      {
+        path: '*',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <NotFound />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+]);
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: '/', 
-      element: <Layout />,
-      children: [
-        { path: '/', element: <Home /> },
-        { path: 'characters', element: <CharacterTable /> },
-        { path: 'characters/:id', element: <CharacterDetails /> },
-        { path: 'episode', element: <Episode /> },
-        { path: 'episodes/:id', element: <EpisodeDetails /> },
-        { path: 'locations', element: <Locations /> },
-        { path: 'locations/:id', element: <LocationsDetails /> },
-      ],
-    },
-  ]);
-
   return (
-    <>
-      <div className="App">
-            <RouterProvider router={router} />
-      </div>
-    </>
-  )
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 }
 
-export default App
- 
+export default App;
